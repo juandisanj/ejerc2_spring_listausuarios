@@ -15,5 +15,6 @@
 </ul>
 
 <a href="<spring:url value="/user_create.html" />"><spring:message code="user.create"/></a>
+<a href="<spring:url value="/ordenador_create.html" />" ><spring:message code="ordenador.create" /></a>
 </body>
 </html>

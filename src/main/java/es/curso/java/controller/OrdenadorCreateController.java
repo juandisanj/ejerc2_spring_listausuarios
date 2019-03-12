@@ -37,6 +37,7 @@ public class OrdenadorCreateController {
 		return new ModelAndView("ordenador_create", "ordenadorForm", new OrdenadorCreateForm());
 	}
 	
+	@RequestMapping(value="/ordenador_create.html", method = RequestMethod.POST)
 	public String createOrdenador(@ModelAttribute("ordenadorForm") @Valid OrdenadorCreateForm ordenadorForm, BindingResult result) {
 		LOGGER.debug("Received request to create {}, with result={}", ordenadorForm, result);
 		if(result.hasErrors()) {
@@ -44,13 +45,11 @@ public class OrdenadorCreateController {
 		}
 		try {
 			ordenadorService.save(new Ordenador(ordenadorForm.getId(), ordenadorForm.getMarca(), ordenadorForm.getModelo(), ordenadorForm.getPassword1()));
+		}catch(Exception e) {
+			LOGGER.debug("Tried to create ordenador with existing id", e);
+			result.reject("ordenador.error.exists"); // ********************************** PENDIENTE AÑADIR EL VALIDADOR
+			return "ordenador_create";
 		}
-		
-		
-		
-		
-		result.reject("ordenador.error.exists"); // ********************************** PENDIENTE AÑADIR EL VALIDADOR
-		
 		return "redirect:/ordenador_list.html";
 	}
 
